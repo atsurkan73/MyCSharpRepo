@@ -1,0 +1,19 @@
+DateTime ddt1 = new  DateTime(2022, 01, 01);
+DateTime ddt2 = new  DateTime(2023, 01, 01);
+DateTime ddt3 =  DateTime.Now;
+
+TimeSpan result1 =  ddt2.Subtract(ddt3);
+TimeSpan result2 = ddt3.Subtract(ddt1);
+		
+
+Console.WriteLine("Check: " + DateTime.Now.Day);
+
+		
+Console.WriteLine("X days left to New Year: " + result1.Days);
+Console.WriteLine("Y days passed from New Year: " + result2.Days);
+
+		
+		DateTime dt1 = new DateTime(2015, 12, 31);
+		DateTime dt2 = new DateTime(2016, 2, 2);
+		TimeSpan result = dt2.Subtract(dt1);
+		Console.WriteLine(result);
