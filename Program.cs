@@ -47,4 +47,23 @@ Console.WriteLine("secondTask is equal to: " + secondTask);
 Console.WriteLine("thirdTask is equal to: " + thirdTask);
 Console.WriteLine("fourthTask is equal to: " + fourthTask);
 
+DateTime ddt1 = new  DateTime(2022, 01, 01);
+DateTime ddt2 = new  DateTime(2023, 01, 01);
+DateTime ddt3 =  DateTime.Now;
+
+TimeSpan result1 =  ddt2.Subtract(ddt3);
+TimeSpan result2 = ddt3.Subtract(ddt1);
+		
+	
+Console.WriteLine($"{result1.Days}  days left to New Year");
+Console.WriteLine($"{result2.Days}  days passed from New Year: ");
+
+//Console.WriteLine($"{"Date String",-37} {"Date",-19}\n");
+
+		
+		DateTime dt1 = new DateTime(2015, 12, 31);
+		DateTime dt2 = new DateTime(2016, 2, 2);
+		TimeSpan result = dt2.Subtract(dt1);
+		Console.WriteLine(result);
+
 }
