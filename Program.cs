@@ -1,50 +1,74 @@
-﻿using System;
+﻿/*
+Create a program that will start with declaration of two constants (X and Y) and will count the sum of all numbers between these constants. If they are equal then sum should be one of them
+
+Example:
+
+X=10
+Y=12
+Sum=10+11+12=33
+
+X=5
+Y=2
+Sum=2+3+4+5=14
+
+X=10
+Y=10
+Sum=10
+
+Extra:
+
+Read values of X and Y from the console. If output is invalid - write to console Invalid input and exit the program.
+*/
+
+
+int x = 0;
+int y = 0;
+int sum = 0;
 
 {
+	try
+	{
+		Console.Write("Enter integer X: ");
+		x = Convert.ToInt32(Console.ReadLine());
+		Console.WriteLine($"X =  {x}");
 
-long longVar = 987654321098787;
-int integerVar = 56565;
-short shortVar = 1234;
-byte byteVar = 127;
-bool boolType = false;
-char oneChar = 'a';
-float floatVar = 543.654F;
-double doubleVar = 987124.12D;
-decimal decimalVar = 20.001M;
+		Console.Write("Enter integer Y: ");
+		y = Convert.ToInt32(Console.ReadLine());
+		Console.WriteLine($"Y =  {y}");
+	}
 
-long substraction;
-short sum;
-double multiplying;
-double dividing;
+	catch
+	{
+		Console.Write("Invalid input");
+		System.Environment.Exit(1);
+	}
 
-substraction = longVar - integerVar;
-sum = Convert.ToInt16(shortVar + byteVar);
-multiplying = doubleVar*floatVar;
-dividing = doubleVar/floatVar;
+	if (x != y)
+	{
+		if (x < y)
+		{
+			while (x < y)
+			{
+			sum = sum + x++;
+			}
+		Console.WriteLine("SUM = " + (y + sum));
 
-Console.WriteLine("substraction is equal to: " + substraction);
-Console.WriteLine("sum is equal to: " + sum);
-Console.WriteLine("multiplying is equal to: " + multiplying);
-Console.WriteLine("dividing is equal to: " + dividing);
-Console.WriteLine();
+		}
 
+		else if (x > y)
+		{
+			while (y < x)
+			{
+			sum = sum + y++;
+			}
+		Console.WriteLine("SUM = " + (x + sum));
+		}
+	}
 
-double x = -1800d;
-double y = 500d;
-double firstTask;
-double secondTask;
-double thirdTask;
-double fourthTask;
-
-
-firstTask = Convert.ToDouble(-6*Math.Pow(x,3) + 5*Math.Pow(x,2) - 10*x + 15);
-secondTask = Convert.ToDouble(Math.Abs(x)*Math.Sin(x));
-thirdTask = Convert.ToDouble(2*Math.PI*x);
-fourthTask = Math.Max(x, y);
-
-Console.WriteLine("firstTask is equal to: " + firstTask);
-Console.WriteLine("secondTask is equal to: " + secondTask);
-Console.WriteLine("thirdTask is equal to: " + thirdTask);
-Console.WriteLine("fourthTask is equal to: " + fourthTask);
-
+	else
+	{
+	Console.WriteLine("SUM = " + x);
+	}
 }
+
+
