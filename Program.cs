@@ -29,8 +29,6 @@ int sum = 0;
 		Console.Write("Enter integer X: ");
 		string str1 = Console.ReadLine();
 		int x; 
-		//Console.WriteLine($"{int.TryParse(str, out var x)?"Input success. X: {x}":"Input not success. X: {x}"}");
-
 		if (int.TryParse(str1, out x) == true)
     {
 		Console.WriteLine($"Succesfull input: {x}");
@@ -42,7 +40,6 @@ else
 		Console.ReadLine();
 		System.Environment.Exit(1);
 	}
-
 	
 		Console.Write("Enter integer Y: ");
 		string str2 = Console.ReadLine();
