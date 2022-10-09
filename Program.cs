@@ -21,25 +21,42 @@ Read values of X and Y from the console. If output is invalid - write to console
 */
 
 
-int x = 0;
-int y = 0;
+
 int sum = 0;
 
 {
-	try
-	{
+	
 		Console.Write("Enter integer X: ");
-		x = Convert.ToInt32(Console.ReadLine());
-		Console.WriteLine($"X =  {x}");
+		string str1 = Console.ReadLine();
+		int x; 
+		//Console.WriteLine($"{int.TryParse(str, out var x)?"Input success. X: {x}":"Input not success. X: {x}"}");
 
-		Console.Write("Enter integer Y: ");
-		y = Convert.ToInt32(Console.ReadLine());
-		Console.WriteLine($"Y =  {y}");
+		if (int.TryParse(str1, out x) == true)
+    {
+		Console.WriteLine($"Succesfull input: {x}");
+	}
+else
+    {
+		Console.WriteLine($"Invalid input: {str1}");
+		Console.WriteLine("Press Enter to exit");
+		Console.ReadLine();
+		System.Environment.Exit(1);
 	}
 
-	catch
-	{
-		Console.Write("Invalid input");
+	
+		Console.Write("Enter integer Y: ");
+		string str2 = Console.ReadLine();
+		int y;
+if (int.TryParse(str2, out y) == true)
+    {
+		Console.WriteLine($"Succesfull input: {str2}");
+	}
+else
+    {
+		
+		Console.WriteLine($"Invalid input: {str2}");
+		Console.WriteLine("Press Enter to exit");
+		Console.ReadLine();
 		System.Environment.Exit(1);
 	}
 
