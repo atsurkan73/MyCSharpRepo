@@ -1,28 +1,101 @@
-﻿{
-int n = 5;
-Console.WriteLine($"Factorial ({n}) = {Factorial (n)}");
-Console.WriteLine($"Method ({n}) = {Method (n)}");
-Console.WriteLine($"Fibonachi ({n}) = {Fibonachi (n)}");
+﻿/*
+Task:
+
+create next methods:
+
+Compare that will return true if 2 strings are equal, otherwise false, but do not use build-in method
+Analyze that will return number of alphabetic chars in string, digits and another special characters
+Sort that will return string that contains all characters from input string sorted in alphabetical order (e.g. 'Hello' -> 'ehllo')
+Duplicate that will return array of characters that are duplicated in input string (e.g. 'Hello and hi' -> ['h', 'l'])
+
+*/
 
 
 
+string myFirstRow = "!Do not stop doing#$%*1212"; //Setting first string
+string mySecondRow = "Do not stop doing"; //Setting second string
+int alphSymbol;
+int numSymbol;
+int specSymbol;
 
-int Factorial(int n)
+
+Compare(myFirstRow, mySecondRow);
+
+Analyze(myFirstRow, out alphSymbol, out numSymbol, out specSymbol);
+
+Sort(mySecondRow);
+
+Duplicate(mySecondRow);
+
+
+
+static bool Compare (string firstString, string secondString)
 {
-    if (n == 1) return 1;
- 
-    return n * Factorial(n - 1);
+    if (firstString == secondString)
+    {
+        Console.WriteLine($"myFirstRow \"{firstString}\" is equal to mySecondRow \"{secondString}\""); 
+        return true;
+    }
+    else
+    { 
+        Console.WriteLine($"myFirstRow \"{firstString}\" is NOT equal to mySecondRow \"{secondString}\"");
+        return false;
+    }
 }
 
-int Method(int num) => num > 0 ? num + Method(num - 1) : 1;
-
-int Fibonachi (int n)
+static void Analyze (string toAnalyze, out int alphabetSymbol, out int numbertSymbol, out int specialSymbol)
 {
-    if (n == 0 || n== 1) 
-	return 1;
-	else
-    return (n-1)  +  (n - 2);
+    alphabetSymbol = 0;
+    numbertSymbol = 0;
+    specialSymbol = 0;
+    string specialChar = @"\|!#$%^*&/()=?@{}[].-+;:'<>_,";
+    for (int index = 0; index < toAnalyze.Length; index++)
+    {
+        if (Char.IsLetter(toAnalyze[index]))
+            alphabetSymbol++;
+        else if (Char.IsDigit(toAnalyze[index]))
+            numbertSymbol++;
+        else
+            foreach (var item in specialChar)
+                if (toAnalyze[index].Equals(item)) specialSymbol++;
+    }
+    Console.WriteLine($"The string \"{toAnalyze}\" contains: \n {alphabetSymbol} alphabet symbols\n {numbertSymbol} digits\n {specialSymbol} special symbols");
+}
+
+static string Sort(string toAnalyze)
+{
+    char[] characters = toAnalyze.ToArray();
+    Array.Sort(characters);
+    string afterSort = new string(characters).Trim().ToLower();
+    Console.WriteLine($"The string \"{toAnalyze}\" sorted in alphabetical order without spaces -> \"{afterSort}\"");
+    return afterSort;
+}
+
+static List<char> Duplicate (string toAnalyze)
+{
+    string withoutSpaces = toAnalyze.Trim().ToLower();
+    var duplicates = new List<char>();
+    foreach (var item in toAnalyze)
+    {
+        int charCount = 0;
+        foreach (var chars in toAnalyze)
+        {
+            if (item == chars && !Char.IsWhiteSpace(item))
+            {
+                charCount++;
+            }
+        }
+        if (charCount > 1 && !duplicates.Contains(item))
+        {
+            duplicates.Add(item);
+        }
+    }
+
+    Console.Write($"'{toAnalyze}' -> ['");
+    Console.Write(string.Join("', '", duplicates));
+    Console.Write("']");
+
+    return duplicates;
 }
 
 
-}
