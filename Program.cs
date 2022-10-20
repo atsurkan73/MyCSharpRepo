@@ -12,14 +12,17 @@ Duplicate that will return array of characters that are duplicated in input stri
 
 
 
+using System.Collections.Generic;
+
 string myFirstRow = "!Do not stop doing#$%*1212"; //Setting first string
 string mySecondRow = "Do not stop doing"; //Setting second string
+
 int alphSymbol;
 int numSymbol;
 int specSymbol;
 
 
-Compare(myFirstRow, mySecondRow);
+Compare("This is string", "This is string");
 
 Analyze(myFirstRow, out alphSymbol, out numSymbol, out specSymbol);
 
@@ -29,21 +32,25 @@ Duplicate(mySecondRow);
 
 
 
-static bool Compare (string firstString, string secondString)
+static bool Compare(string firstString, string secondString)
 {
-    if (firstString == secondString)
+    if (firstString.Length == secondString.Length)
     {
-        Console.WriteLine($"myFirstRow \"{firstString}\" is equal to mySecondRow \"{secondString}\""); 
+        for (int i = 0; i < firstString.Length; i++)
+        {
+            if (firstString[i] != secondString[i])
+            {
+                break;
+            }
+        }
+        Console.WriteLine($"First string \"{firstString}\" is equal to Second string \"{secondString}\"");
         return true;
     }
-    else
-    { 
-        Console.WriteLine($"myFirstRow \"{firstString}\" is NOT equal to mySecondRow \"{secondString}\"");
-        return false;
-    }
+    Console.WriteLine($"myFirstRow \"{firstString}\" is NOT equal to mySecondRow \"{secondString}\"");
+    return false;
 }
 
-static void Analyze (string toAnalyze, out int alphabetSymbol, out int numbertSymbol, out int specialSymbol)
+static void Analyze(string toAnalyze, out int alphabetSymbol, out int numbertSymbol, out int specialSymbol)
 {
     alphabetSymbol = 0;
     numbertSymbol = 0;
@@ -59,7 +66,7 @@ static void Analyze (string toAnalyze, out int alphabetSymbol, out int numbertSy
             foreach (var item in specialChar)
                 if (toAnalyze[index].Equals(item)) specialSymbol++;
     }
-    Console.WriteLine($"The string \"{toAnalyze}\" contains: \n {alphabetSymbol} alphabet symbols\n {numbertSymbol} digits\n {specialSymbol} special symbols");
+    Console.WriteLine($"The string \"{toAnalyze}\" contains: \n {alphabetSymbol} alphabet symbols\n {numbertSymbol} digits\n {specialSymbol} other symbols like special, punctuation, etc.");
 }
 
 static string Sort(string toAnalyze)
@@ -71,7 +78,7 @@ static string Sort(string toAnalyze)
     return afterSort;
 }
 
-static List<char> Duplicate (string toAnalyze)
+static List<char> Duplicate(string toAnalyze)
 {
     string withoutSpaces = toAnalyze.Trim().ToLower();
     var duplicates = new List<char>();
@@ -97,5 +104,3 @@ static List<char> Duplicate (string toAnalyze)
 
     return duplicates;
 }
-
-
