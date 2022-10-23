@@ -1,106 +1,173 @@
 ﻿/*
 Task:
 
-create next methods:
+Provide ability to search in phone book by any criteria (first/last name or phone number)
 
-Compare that will return true if 2 strings are equal, otherwise false, but do not use build-in method
-Analyze that will return number of alphabetic chars in string, digits and another special characters
-Sort that will return string that contains all characters from input string sorted in alphabetical order (e.g. 'Hello' -> 'ehllo')
-Duplicate that will return array of characters that are duplicated in input string (e.g. 'Hello and hi' -> ['h', 'l'])
+Extra:
+
+Update phone number program that will store rows in alphabetical order (order by last name, first name and then phone number)
+
+Use binary search algorithm to search for row in phone book
 
 */
 
 
 
-using System.Collections.Generic;
-
-string myFirstRow = "!Do not stop doing#$%*1212"; //Setting first string
-string mySecondRow = "Do not stop doing"; //Setting second string
-
-int alphSymbol;
-int numSymbol;
-int specSymbol;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading.Channels;
 
 
-Compare("This is string", "This is string");
+var pathToPhonebook = "MyPhonebook.csv";
 
-Analyze(myFirstRow, out alphSymbol, out numSymbol, out specSymbol);
+var phoneBook = ReadCsvFile(ref pathToPhonebook); //read data from phonebook file and pack them to list
 
-Sort(mySecondRow);
+SelectOperation(phoneBook, ref pathToPhonebook);
 
-Duplicate(mySecondRow);
+OrderContactsBy(phoneBook);
 
 
 
-static bool Compare(string firstString, string secondString)
+static void SelectOperation(List<(string Firstname, string Secondname, string Phonenumber, string Group)> phoneList, ref string pathToPhonebook)
 {
-    if (firstString.Length == secondString.Length)
+    Console.WriteLine($"Select operation. " +
+        $"\n Press '1' and Enter - Input new entry in phonebook; " +
+        $"\n Press '2' and Enter - Search contact by any criteria " +
+        $"\n Press '3' and Enter - Skip input  and pass to sorting phonebook" +
+        $"\n Press '4' and Enter - Cancel input");
+
+    string choiceSelect = Console.ReadLine();
+    if (choiceSelect == "1")
     {
-        for (int i = 0; i < firstString.Length; i++)
-        {
-            if (firstString[i] != secondString[i])
-            {
-                break;
-            }
-        }
-        Console.WriteLine($"First string \"{firstString}\" is equal to Second string \"{secondString}\"");
-        return true;
+        string inputContact = InputValue(); // introduction to input new contact
+        ConfirmInput(inputContact, ref pathToPhonebook); // creation one contact in the list and file
+        var contactList = ReadCsvFile(ref pathToPhonebook);
+        PrintPhonebook(contactList, ref pathToPhonebook);
     }
-    Console.WriteLine($"myFirstRow \"{firstString}\" is NOT equal to mySecondRow \"{secondString}\"");
-    return false;
-}
-
-static void Analyze(string toAnalyze, out int alphabetSymbol, out int numbertSymbol, out int specialSymbol)
-{
-    alphabetSymbol = 0;
-    numbertSymbol = 0;
-    specialSymbol = 0;
-    string specialChar = @"\|!#$%^*&/()=?@{}[].-+;:'<>_,";
-    for (int index = 0; index < toAnalyze.Length; index++)
+    else if (choiceSelect == "2")
     {
-        if (Char.IsLetter(toAnalyze[index]))
-            alphabetSymbol++;
-        else if (Char.IsDigit(toAnalyze[index]))
-            numbertSymbol++;
-        else
-            foreach (var item in specialChar)
-                if (toAnalyze[index].Equals(item)) specialSymbol++;
+        SearchContactsBy(searchInput(), phoneList);
     }
-    Console.WriteLine($"The string \"{toAnalyze}\" contains: \n {alphabetSymbol} alphabet symbols\n {numbertSymbol} digits\n {specialSymbol} other symbols like special, punctuation, etc.");
-}
-
-static string Sort(string toAnalyze)
-{
-    char[] characters = toAnalyze.ToArray();
-    Array.Sort(characters);
-    string afterSort = new string(characters).Trim().ToLower();
-    Console.WriteLine($"The string \"{toAnalyze}\" sorted in alphabetical order without spaces -> \"{afterSort}\"");
-    return afterSort;
-}
-
-static List<char> Duplicate(string toAnalyze)
-{
-    string withoutSpaces = toAnalyze.Trim().ToLower();
-    var duplicates = new List<char>();
-    foreach (var item in toAnalyze)
+    else if (choiceSelect == "3")
     {
-        int charCount = 0;
-        foreach (var chars in toAnalyze)
+        Console.WriteLine("Input and Search are skipped. Move to sorting method.");
+    }
+    else if (choiceSelect == "4")
+    {
+        CancelInput();
+    }
+}
+
+
+static List<(string Firstname, string Secondname, string Phonenumber, string Group)> ReadCsvFile(ref string path)
+{
+    if (!File.Exists(path)) return null;
+    var bookList = new List<(string Firstname, string Secondname, string Phonenumber, string Group)>();
+    var rows = File.ReadAllLines(path);
+    for (int i = 1; i < rows.Count(); i++)
+    {
+        if (rows[i].Length != 0)
         {
-            if (item == chars && !Char.IsWhiteSpace(item))
-            {
-                charCount++;
-            }
-        }
-        if (charCount > 1 && !duplicates.Contains(item))
-        {
-            duplicates.Add(item);
+            var splitComma = rows[i].Split(",");
+            bookList.Add((splitComma[0], splitComma[1], splitComma[2], splitComma[3]));
         }
     }
-
-    Console.Write($"'{toAnalyze}' -> ['");
-    Console.Write(string.Join("', '", duplicates));
-    Console.Write("']");
-
-    return duplicates;
+    return bookList;
 }
+
+static void PrintPhonebook(List<(string Firstname, string Secondname, string Phonenumber, string Group)> contacts, ref string path)
+{
+    Console.WriteLine($"Read data from {path}:");
+    Console.WriteLine("Firstname - Secondname - Phonenumber - Group");
+
+    foreach (var row in contacts)
+        Console.WriteLine("{0}, {1}, {2}, {3}", row.Firstname, row.Secondname, row.Phonenumber, row.Group);
+}
+
+static string InputValue()
+{
+    Console.WriteLine("Enter contact data separated by comma: Firstname,Secondname,Phonenumber,Group");
+    string input = Console.ReadLine();
+    Console.WriteLine($"Input: {input}");
+    return input;
+}
+
+static void ConfirmInput(string inputData, ref string path)
+{
+    var confirmInvitation = "Please confirm Input. Press Y - yes or N - no";
+    string choice;
+    do
+    {
+        Console.WriteLine(confirmInvitation);
+        choice = Console.ReadLine();
+        if (choice == "N" || choice == "Y")
+            break;
+    }
+    while (choice != "N" || choice != "Y");
+    {
+        if (choice == "Y") { AddContact(inputData, ref path); }
+        else { CancelInput(); }
+    }
+}
+
+static void CancelInput()
+{
+    Console.WriteLine("Input rejected by user");
+    Environment.Exit(1);
+}
+
+static void AddContact(string input, ref string path)
+{
+    File.AppendAllLines(path, new[] { $"\n{input}" });
+    Console.WriteLine($"Contact \"{input}\" has been added in the file \"{path}\"");
+}
+
+static List<(string Firstname, string Secondname, string Phonenumber, string Group)> SearchContactsBy(string input, List<(string Firstname, string Secondname, string Phonenumber, string Group)> collection)
+{
+    var searchResult = new List<(string Firstname, string Secondname, string Phonenumber, string Group)>();
+    for (int row = 0; row < collection.Count; row++)
+    {
+        if (collection[row].Firstname.Contains(input, StringComparison.OrdinalIgnoreCase) || collection[row].Secondname.Contains(input, StringComparison.OrdinalIgnoreCase) || collection[row].Phonenumber.Contains(input))
+            searchResult.Add(collection[row]);
+    }
+    if (searchResult.Count != 0)
+    {
+        foreach (var row in searchResult)
+            Console.WriteLine("{0}, {1}, {2}", row.Firstname, row.Secondname, row.Phonenumber);
+    }
+    else { Console.WriteLine($"Nothing found for \"{input}\""); }
+    return searchResult;
+}
+
+static string searchInput()
+{
+    string search;
+    string inputInvitation = "Enter search word or number and press Enter";
+    do
+    {
+        Console.WriteLine(inputInvitation);
+        search = Console.ReadLine();
+    }
+    while (search.Length == 0);
+    return search;
+}
+
+static List<(string Firstname, string Secondname, string Phonenumber, string Group)> OrderContactsBy(List<(string Firstname, string Secondname, string Phonenumber, string Group)> collection)
+{
+    string newPath = "MyPhonebook_Ordered.csv";
+    var collectionOrdered = collection.OrderBy(c => c.Secondname).ThenBy(c => c.Firstname).ThenBy(c => c.Phonenumber).ToList();
+    File.Delete(newPath);
+
+    foreach (var row in collectionOrdered)
+    {
+        File.AppendAllLines(newPath, new[] { $"\n{row}" }); 
+    }
+
+    var contactList = ReadCsvFile(ref newPath);
+    Console.WriteLine();
+    Console.WriteLine("Sorted by last name, first name and then phone number:");
+    PrintPhonebook(contactList, ref newPath);
+    return contactList;
+}
+
+
