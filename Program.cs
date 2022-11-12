@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OnlineShop;
+﻿/* 
+Create generic Stack<T> class with next methods: 
+Push(obj) - adds obj at the top of stack
+Pop() -returns top element of stack & removes it
+Clear() -clear stack
+Count - property return number of elements
+Peek() -returns top element but doesn’t remove it
+CopyTo(arr) -copies stack to array
+*/
+
+using StackLesson;
 
 
-
-    /*
-     Describe with UML ‘internet shop’ domain. It should include products (with price, quantity, etc.), buyers (personal information), receipts (what was sold and to whom), etc.
-
-    Implement all entities in C# program
-
-    Provide console interface to register new product, add quantity to existent, sell product, register buyer.
-     */
-
-    string customerFile = "Customers.csv";
-    string productFile = "Products.csv";
+StackTest<Object> stackTest1 = new StackTest<Object>();
+StackTest<Object> stackTest2 = new StackTest<Object>();
+OperationInt operationInt = new OperationInt();
+OperationString operationString = new OperationString();
 
 
-Customer.OperationWithCustomers(customerFile); // Implemented the following operations: Create cusomer, Remove cusomer, GetCustomerById, PrintCustomerList 
+// Calling generic methods of class StackTest<T> that deal with any type of data.
 
-Products.OperationWithProducts(productFile); // Implemented the following operations: Create product, Remove product, GetProductById, PrintProductList and total quantity. 
 
-Order.MakeOrder(productFile); // Implemented the following operations: Create order, Print receipt on screen.
+operationInt.ChoooseOperation(stackTest1);   //Int value is used for demonstration how stack works.  
+operationString.ChoooseOperation(stackTest2); // String value is used for demonstration how stack works.  
 
