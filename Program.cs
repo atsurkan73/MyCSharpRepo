@@ -1,25 +1,24 @@
 ﻿/* 
-Create generic Stack<T> class with next methods: 
-Push(obj) - adds obj at the top of stack
-Pop() -returns top element of stack & removes it
-Clear() -clear stack
-Count - property return number of elements
-Peek() -returns top element but doesn’t remove it
-CopyTo(arr) -copies stack to array
+Create a program to ‘vote’ for anything. Via the console interface users will create a ‘vote topic’ with options.
+Voters will vote via console interface as well. Users can see voting results via console interface.
 */
 
-using StackLesson;
+using CollectionLesson;
 
 
-StackTest<Object> stackTest1 = new StackTest<Object>();
-StackTest<Object> stackTest2 = new StackTest<Object>();
-OperationInt operationInt = new OperationInt();
-OperationString operationString = new OperationString();
+VoteSystem voteSystem = new VoteSystem();
+UserData userData = new UserData();
+Vote vote = new Vote();
+
+List<string> userList;
+Dictionary<int, string> voteOptions;
 
 
-// Calling generic methods of class StackTest<T> that deal with any type of data.
 
 
-operationInt.ChoooseOperation(stackTest1);   //Int value is used for demonstration how stack works.  
-operationString.ChoooseOperation(stackTest2); // String value is used for demonstration how stack works.  
+
+userList = userData.CreateUser();
+voteOptions = voteSystem.DefineVoteSystem();
+vote.SelectUser(userList);
+vote.VotingResult(voteOptions);
 
