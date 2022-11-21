@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,7 +14,7 @@ namespace SnakeGame
     {
         public List<Point> WholeBody = new List<Point>();
         public Point Head => WholeBody.First();
-        public IEnumerable <Point> Body => WholeBody.Skip(1);
+        public IEnumerable <Point> Body => WholeBody.Skip(1).ToList();
         public int GrowthDelta;
         public bool isAlive { get; set; } = true;
 
@@ -42,6 +43,7 @@ namespace SnakeGame
             }
 
             WholeBody.Insert(0, newHead);
+
             if (GrowthDelta > 0)   GrowthDelta--;
             else WholeBody.RemoveAt(WholeBody.Count - 1);
         }
@@ -57,7 +59,10 @@ namespace SnakeGame
             Console.SetCursorPosition(Head.X, Head.Y);
             Console.Write("*");
             foreach (var index in Body)
+            {
+                Console.SetCursorPosition(index.X, index.Y);
                 Console.Write("o");
+            }
         }
 
         public bool IsInBoundaries(Point pnt) =>
