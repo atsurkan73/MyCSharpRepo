@@ -1,24 +1,37 @@
 ﻿/* 
-Create a program to ‘vote’ for anything. Via the console interface users will create a ‘vote topic’ with options.
-Voters will vote via console interface as well. Users can see voting results via console interface.
+
 */
 
-using CollectionLesson;
+using SnakeGame;
+using System.Linq.Expressions;
+
+var rate = TimeSpan.FromMilliseconds(300);
+var game = new Game();
 
 
-VoteSystem voteSystem = new VoteSystem();
-UserData userData = new UserData();
-Vote vote = new Vote();
+using (var token = new CancellationTokenSource())
+{
+    var check = CheckKeyPresses(token);
+    do
+    {
+        game.OnTick();
+        game.Render();
+        await Task.Delay(rate);
+    }
+    while (!game.IsGameOver);
+    token.Cancel();
+    await check;
+}
 
-List<string> userList;
-Dictionary<int, string> voteOptions;
+async Task CheckKeyPresses(CancellationTokenSource cts)
+{
+    while (!cts.Token.IsCancellationRequested)
+        if (Console.KeyAvailable)
+        { 
+            var key = Console.ReadKey(true).Key;
+            game.OnKeyPress(key);
+            await Task.Delay(10);
+        }
 
-
-
-
-
-userList = userData.CreateUser();
-voteOptions = voteSystem.DefineVoteSystem();
-vote.SelectUser(userList);
-vote.VotingResult(voteOptions);
+}
 
