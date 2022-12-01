@@ -17,20 +17,21 @@ Console.WriteLine($"Class name: {navigation}\n");
 MethodInfo[] methods = navigation.GetMethods();
 
 int i = 0;
+int j = 0;
 
 foreach (MethodInfo method in methods)
 {
     i++;
     Console.WriteLine("Method[{0}] = {1}", i, method.Name);
     ParameterInfo[] parameters = method.GetParameters();
-   
+
     Console.WriteLine($"Arguments to pass in method {method}:");
     foreach (ParameterInfo parameter in parameters)
     {
-        i++;
-        if(parameters.Length == 0)
-            Console.WriteLine($"No arguments degined to pass in {method}" );
-        Console.WriteLine("Argument[{0}] = {1} of type {2}", i, parameter.Name, parameter.ParameterType.Name);
+        j++;
+        if (parameters.Length == 0)
+            Console.WriteLine($"No arguments degined to pass in {method}");
+        Console.WriteLine("Argument[{0}] = {1} of type {2}", j, parameter.Name, parameter.ParameterType.Name);
     }
 
     string returnType = method.ReturnType.FullName;
