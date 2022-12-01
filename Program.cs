@@ -1,50 +1,45 @@
-﻿/* 
-find out who is located farthest north/south/west/east using latitude/longitude data
-find max and min distance between 2 persons
-find 2 persons whos ‘about’ have the most same words
-find persons with same friends (compare by friend’s name)
-*/
-
-using Bogus;
-using LinqTask;
-using System.Data.Common;
-using System.Diagnostics.Metrics;
-using System.Linq.Expressions;
-
-int intersectCount = 0;
-var user = new User();
-var faker = new LinqTask.Faker();
+﻿using System.Reflection;
 
 
-var users = faker.UsersGenerate(50);
+/*
+ Create application that will load assembly and show all it’s classes and their methods with arguments needed to pass and return types
+ */
+
+string path = "D:\\MRA2\\icui\\autotests\\ET\\libs\\bins\\Navigation.dll";
 
 
-user.FarthestLocated(users);
+Assembly assembly = Assembly.LoadFrom(path);
 
-user.DistanceBetween(users);
+Type navigation = assembly.GetType("Navigation.HMINavigation");
 
-user.MostSameWords(users);
+Console.WriteLine($"Class name: {navigation}\n");
 
-user.PersonsWithSameFriends(users, 5);
+MethodInfo[] methods = navigation.GetMethods();
+
+int i = 0;
+
+foreach (MethodInfo method in methods)
+{
+    i++;
+    Console.WriteLine("Method[{0}] = {1}", i, method.Name);
+    ParameterInfo[] parameters = method.GetParameters();
+   
+    Console.WriteLine($"Arguments to pass in method {method}:");
+    foreach (ParameterInfo parameter in parameters)
+    {
+        i++;
+        if(parameters.Length == 0)
+            Console.WriteLine($"No arguments degined to pass in {method}" );
+        Console.WriteLine("Argument[{0}] = {1} of type {2}", i, parameter.Name, parameter.ParameterType.Name);
+    }
+
+    string returnType = method.ReturnType.FullName;
+
+    Console.WriteLine("The returned type of method {0} is {1} \n", method, returnType);
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-//var list = users.OrderBy(u => u.Name);
-
-
-//foreach (var item in list)
-//    Console.WriteLine(item.Name);
 
 
 
