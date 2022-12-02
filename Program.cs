@@ -10,9 +10,18 @@ string path = "D:\\MRA2\\icui\\autotests\\ET\\libs\\bins\\Navigation.dll";
 
 Assembly assembly = Assembly.LoadFrom(path);
 
+string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
+
+var splitComma = availableTypes.Split(",");
+
+Console.WriteLine($"Class used in : {assembly}\n");
+
+foreach (var item in splitComma)
+{ Console.WriteLine(item); }
+
 Type navigation = assembly.GetType("Navigation.HMINavigation");
 
-Console.WriteLine($"Class name: {navigation}\n");
+Console.WriteLine($"\nClass name: {navigation}\n");
 
 MethodInfo[] methods = navigation.GetMethods();
 
@@ -38,10 +47,3 @@ foreach (MethodInfo method in methods)
 
     Console.WriteLine("The returned type of method {0} is {1} \n", method, returnType);
 }
-
-
-
-
-
-
-
