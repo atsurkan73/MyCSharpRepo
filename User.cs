@@ -17,6 +17,10 @@ public class User
     public string About { get; set; }
     public List<User> Friends { get; set; }
     public List<User> UsersList { get; set; }
+    public User user { get; set; }
+
+
+    
 
     public User() { }
     public User(int id, string name, double latitude, double longitude, string about, List<User> friends)
@@ -29,78 +33,139 @@ public class User
         Friends = friends;
     }
 
-    record CounterRecordWords(int UserId, List<string> Words, int Counter, int OtherId);
+    public record CounterRecordWords(int UserId, List<string> Words, int Counter, int OtherId);
     record CounterRecordFriends(int UserId, List<string> Friends, int Counter, int OtherId);
 
     LinqTask.Faker faker = new LinqTask.Faker();
 
 
-    public void FarthestLocated(List<User> usersForLocation)
+    public User FarthestLocated(List<User> usersForLocation, Direction direction)
     {
-        var userNorth = usersForLocation.MaxBy(u => u.Latitude);
-        var userSouth = usersForLocation.MinBy(u => u.Latitude);
-        var userEast = usersForLocation.MaxBy(u => u.Longitude);
-        var userWest = usersForLocation.MinBy(u => u.Longitude);
+        User userDirection = new User();
+        switch (direction)
+        {
+            case Direction.North:
+                userDirection = usersForLocation.MaxBy(u => u.Latitude);
+                Console.Write("User located farthest North: Id - Name - Latitude - Longitude: ");
+                Console.WriteLine($"{userDirection.Id} - {userDirection.Name} - {userDirection.Latitude} - {userDirection.Longitude}");
+                break;
+            case Direction.South:
+                userDirection = usersForLocation.MinBy(u => u.Latitude);
+                Console.Write("User located farthest South: Id - Name - Latitude - Longitude: ");
+                Console.WriteLine($"{userDirection.Id} - {userDirection.Name} - {userDirection.Latitude} - {userDirection.Longitude}");
+                break;
+            case Direction.East:
+                userDirection = usersForLocation.MaxBy(u => u.Longitude);
+                Console.Write("User located farthest North: Id - Name - Latitude - Longitude: ");
+                Console.WriteLine($"{userDirection.Id} - {userDirection.Name} - {userDirection.Latitude} - {userDirection.Longitude}");
+                break;
+            case Direction.West:
+                userDirection = usersForLocation.MinBy(u => u.Longitude);
+                Console.Write("User located farthest South: Id - Name - Latitude - Longitude: ");
+                Console.WriteLine($"{userDirection.Id} - {userDirection.Name} - {userDirection.Latitude} - {userDirection.Longitude}");
+                break;
+        }
+        return userDirection;
 
-
-
-        Console.Write("User located farthest north: Id - Name - Latitude - Longitude: ");
-        Console.WriteLine($"{userNorth.Id} - {userNorth.Name} - {userNorth.Latitude} - {userNorth.Longitude}");
-        Console.Write("User located farthest south: Id - Name - Latitude - Longitude: ");
-        Console.WriteLine($"{userSouth.Id} - {userSouth.Name} - {userSouth.Latitude} - {userSouth.Longitude}");
-        Console.Write("User located farthest earth: Id - Name - Latitude - Longitude: ");
-        Console.WriteLine($"{userEast.Id} - {userEast.Name} - {userEast.Latitude} - {userEast.Longitude}");
-        Console.Write("User located farthest west: Id - Name - Latitude - Longitude: ");
-        Console.WriteLine($"{userWest.Id} - {userWest.Name} - {userWest.Latitude} - {userWest.Longitude}");
     }
 
-    public void DistanceBetween(List<User> usersForDistance)
+    public double MaxDistance(List<User> usersForDistance)
     {
+        double max1 = 0;
+        var userMax1 = usersForDistance[0];
+        var userMax2 = usersForDistance[0];
 
-    double min1 = 1000000000000000;
-    double max1 = 0;
-    var userMin1 = usersForDistance[0];
-    var userMin2 = usersForDistance[0];
-    var userMax1 = usersForDistance[0];
-    var userMax2 = usersForDistance[0];
-
-for (int i = 0; i< usersForDistance.Count; i++)
-{
-    for (int j = i+1; j< usersForDistance.Count(); j++)
-    {
-        if (usersForDistance[i] != usersForDistance[j])
+        for (int i = 0; i < usersForDistance.Count; i++)
         {
-            var distance = Math.Sqrt((usersForDistance[j].Latitude - usersForDistance[i].Latitude) * (usersForDistance[j].Latitude - usersForDistance[i].Latitude)
-            + (usersForDistance[j].Longitude - usersForDistance[i].Longitude) * (usersForDistance[j].Longitude - usersForDistance[i].Longitude));
+            for (int j = i + 1; j < usersForDistance.Count(); j++)
+            {
+                if (usersForDistance[i] != usersForDistance[j])
+                {
+                    var distance = Math.Sqrt((usersForDistance[j].Latitude - usersForDistance[i].Latitude) * (usersForDistance[j].Latitude - usersForDistance[i].Latitude)
+                    + (usersForDistance[j].Longitude - usersForDistance[i].Longitude) * (usersForDistance[j].Longitude - usersForDistance[i].Longitude));
 
-            if (distance<min1)
-            {
-                min1 = distance;
-                userMin1 = usersForDistance[i];
-                userMin2 = usersForDistance[j];
-            }
-            else if (distance > max1)
-            {
-                max1 = distance;
-                userMax1 = usersForDistance[i];
-                userMax2 = usersForDistance[j];
+                    if (distance > max1)
+                    {
+                        max1 = distance;
+                        userMax1 = usersForDistance[i];
+                        userMax2 = usersForDistance[j];
+                    }
+                }
             }
         }
+        Console.WriteLine($"Maximum distance {max1} is bettween {userMax1.Name} (Latitude: {userMax1.Latitude}, Longititude: {userMax1.Longitude}) " +
+                     $"and {userMax2.Name} (Latitude: {userMax2.Latitude}, Longititude: {userMax2.Longitude})");
+        return max1;
     }
-}
 
-Console.WriteLine($"Minimum distance {min1} is bettween {userMin1.Name} (Latitude: {userMin1.Latitude}, Longititude: {userMin1.Longitude}) " +
-                 $"and {userMin2.Name} (Latitude: {userMin2.Latitude}, Longititude: {userMin2.Longitude})");
-
-Console.WriteLine($"Maximum distance {max1} is bettween {userMax1.Name} (Latitude: {userMax1.Latitude}, Longititude: {userMax1.Longitude}) " +
-                 $"and {userMax2.Name} (Latitude: {userMax2.Latitude}, Longititude: {userMax2.Longitude})"); 
-}
-
-    public void MostSameWords(List<User> usersMostSameWords)
+    public double MinDistance(List<User> usersForDistance)
     {
-        var users2 = faker.FriendsGenerate(usersMostSameWords, 5); 
+        double min1 = 1000000000000000;
+        var userMin1 = usersForDistance[0];
+        var userMin2 = usersForDistance[0];
 
-        var allusers = usersMostSameWords.Zip(users2); 
+        for (int i = 0; i < usersForDistance.Count; i++)
+        {
+            for (int j = i + 1; j < usersForDistance.Count(); j++)
+            {
+                if (usersForDistance[i] != usersForDistance[j])
+                {
+                    var distance = Math.Sqrt((usersForDistance[j].Latitude - usersForDistance[i].Latitude) * (usersForDistance[j].Latitude - usersForDistance[i].Latitude)
+                    + (usersForDistance[j].Longitude - usersForDistance[i].Longitude) * (usersForDistance[j].Longitude - usersForDistance[i].Longitude));
+
+                    if (distance < min1)
+                    {
+                        min1 = distance;
+                        userMin1 = usersForDistance[i];
+                        userMin2 = usersForDistance[j];
+                    }
+                }
+            }
+        }
+        Console.WriteLine($"Minimum distance {min1} is bettween {userMin1.Name} (Latitude: {userMin1.Latitude}, Longititude: {userMin1.Longitude}) " +
+                $"and {userMin2.Name} (Latitude: {userMin2.Latitude}, Longititude: {userMin2.Longitude})");
+        return min1;
+    }
+
+    public Queue<double> CalculateDistance(List<User> usersForDistance)
+    {
+        Queue<double> allDistance= new Queue<double>();
+
+        for (int i = 0; i < usersForDistance.Count; i++)
+        {
+            for (int j = i + 1; j < usersForDistance.Count(); j++)
+            {
+                if (usersForDistance[i] != usersForDistance[j])
+                {
+                    var distance = Math.Sqrt((usersForDistance[j].Latitude - usersForDistance[i].Latitude) * (usersForDistance[j].Latitude - usersForDistance[i].Latitude)
+                    + (usersForDistance[j].Longitude - usersForDistance[i].Longitude) * (usersForDistance[j].Longitude - usersForDistance[i].Longitude));
+
+                    allDistance.Enqueue(distance);
+                }
+            }
+        }
+        return allDistance;
+    }
+
+    //public List<User> GenerateListWithFrieds(List<User> usersInit, int friendsNum)
+    //{
+    //    List<User> friendsList = faker.FriendsGenerate(usersInit, friendsNum);
+    //    List<User> allusers = usersInit.Zip(friendsList);
+    //    return allusers;
+    //}
+
+    //public void IntersectWords ()
+    //{
+
+    //}
+
+
+    public CounterRecordWords MostSameWords(List<User> usersMostSameWords)
+    {
+
+        //var users2 = faker.FriendsGenerate(usersMostSameWords, 5); 
+
+        //var allusers = usersMostSameWords.Zip(users2); 
 
         var userdata = usersMostSameWords
             .Select(u => new CounterRecordWords(u.Id, u.About.Split(" ").Distinct().ToList(), -1, -1)).ToList();
@@ -124,6 +189,8 @@ Console.WriteLine($"Maximum distance {max1} is bettween {userMax1.Name} (Latitud
 
         var max = userdata.MaxBy(u => u.Counter);
         Console.WriteLine($"The max intersection is between {max.UserId} and {max.OtherId} of {max.Counter} words");  // UserId and OtherId - Id of users with the most matching words in About
+        
+        return max;
     }
 
     public void PersonsWithSameFriends(List<User> usersForSameFriends, int numFriends)
@@ -152,5 +219,13 @@ Console.WriteLine($"Maximum distance {max1} is bettween {userMax1.Name} (Latitud
                 }
             }
         }
+    }
+
+    public enum Direction
+    { 
+        North,
+        South,
+        East,
+        West
     }
 }
