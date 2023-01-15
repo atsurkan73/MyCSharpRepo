@@ -1,0 +1,28 @@
+1. Products table content:
+
+SELECT TOP (1000) [ProductId]
+      ,[ProductName]
+      ,[Price]
+      ,[Category]
+  FROM [MyDb].[dbo].[Products]
+  
+  Results:
+  
+  ProductId	ProductName		Price	Category
+1	MotherBoard Asus3504	1122	NULL
+2	RAM 2GB					139		NULL
+3	HDD Samsung 10GB		276		NULL
+4	Mouse Logitech B100		22		NULL
+5	Mouse Logitech B100		1		NULL
+6	MotherBoard Asus3511	1257	NULL
+
+2. ProductCategory table:
+
+SELECT TOP (1000) [Category]
+      ,[Subcategory]
+      ,[ProductId]
+  FROM [MyDb].[dbo].[ProductCategory]
+  
+  Result:
+  
+  Category	Subcategory	ProductId
