@@ -1,13 +1,30 @@
-﻿@model List<Product>
+﻿@model List<MVCApplication.Product>
 @{
     var products = Model;
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Product List</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-5">welcome @User.Identity?.Name</h1>
+          <h1 class="display-4">Product List</h1> 
+
+  
+
+@if (User.Identity is { IsAuthenticated: true }) 
+{
+    <p>Block for auth user</p>
+}
     
+
+@if (User.IsInRole("Admin")) 
+{
+    <p>Block for admin only</p>
+}   
+
+@if (User.IsInRole("Admin") || User.IsInRole("Support")) 
+{
+    <p>Block for admin or suport</p>
+} 
     <br/>
     <button>
         <a asp-controller="Home" asp-action="InputForm">

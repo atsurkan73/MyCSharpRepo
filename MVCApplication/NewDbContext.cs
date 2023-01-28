@@ -1,4 +1,3 @@
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVCApplication
@@ -6,7 +5,6 @@ namespace MVCApplication
     public class NewDbContext : DbContext
     {
 
-      //  public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductCategory> ProductCategory { get; set; }
