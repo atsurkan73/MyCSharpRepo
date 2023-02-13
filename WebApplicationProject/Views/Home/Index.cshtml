@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using WebApplicationProject.Data
+@using WebApplicationProject
+@model List<WebApplicationProject.Data.Customer>
+@{
+    var customers = Model;
+    ViewData["Title"] = "Home Page";
+    var users = await Repository.GetCustomers();
+    var userL = users.FirstOrDefault(user => user.Login == User.Identity?.Name);
+    var profiles = await Repository.GetProfiles();
+    var tariffs = await Repository.GetTariffs();
+    var profile = profiles?.FirstOrDefault(profile => profile.ProfileId == userL?.ServiceProfileId);
+
+    TariffPlan? tariff = tariffs?.FirstOrDefault(tariff => tariff.TariffName == profile?.TariffPlan);
+}
+
+<div class="text-center">
+
+    @if (User.Identity is { IsAuthenticated: false })
+    {
+        <h1 class="display-4" style="color:cadetblue">Welcome</h1>
+        <br/>
+        <div>
+            <a asp-controller="Home" asp-action="Login" style='font-size:24px'>Login to get customer data</a>
+        </div>
+    }
+
+
+    @if (User.Identity is { IsAuthenticated: true })
+    {
+         <h1 class="display-5" style="color:cadetblue">Welcome <b>@User.Identity?.Name</b></h1>
+    }
+    <br/>
+    @if (User.IsInRole("admin"))
+    {
+        <div style="font-size:24px; text-align:start">
+            Add new Customer: <div style="font-size:12px; color:brown">(follow the right sequence)</div>
+        </div>
+        <br />
+        <p style="text-align:start">
+            <button class="btn btn-primary">
+                <a asp-controller="Home" asp-action="InputFormProfile" style="color:white">
+                1.Add new service profile
+                </a>
+            </button>
+        </p>
+        <p style="text-align:start">
+            <button class="btn btn-primary">
+            <a asp-controller="Home" asp-action="InputForm" style="color:white">
+                2.Add new customer (account)
+            </a>
+             </button>
+        </p>
+        <br />
+         <h1>List of customers (accounts)</h1>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    
+                    <td style="color:cadetblue"><b>Id (Account)<b/></td>
+                    <td style="color:cadetblue"><b>Name</b></td>
+                    <td style="color:cadetblue"><b>Login</b></td>
+                    <td style="color:cadetblue"><b>Password</b></td>
+                    <td style="color:cadetblue"><b>Payment balance</b></td>
+                    <td style="color:cadetblue"><b>Status</b></td>
+                    <td style="color:cadetblue"><b>Role</b></td>
+                    <td style="color:cadetblue"><b>Service profile</b><div style="font-size:12px;">(click to edit)</div></td>
+                    <td style='color:cadetblue'> <b>Edit</b></td>
+                    <td style='color:cadetblue'> <b>Delete</b></td
+                </tr>
+            </tbody>
+
+            <tbody >
+                @foreach (var customer in customers)
+                {
+                    profile.ProfileId = customer.ServiceProfileId;
+                    <tr>
+                        <td>@customer.Id</td>
+                        <td>@customer.Name</td>
+                        <td>@customer.Login</td>
+                        <td>@customer.Password</td>
+                        <td>@customer.PaymentBalance</td>
+                        <td>@customer.Status</td>
+                        <td>@customer.Role</td>
+                        <td>
+                            <a asp-controller="Home" asp-action="EditServiceProfile"
+                       asp-route-id="@profile.ProfileId" )> @profile.ProfileId</a>
+                        </td>
+                        <td>
+                            <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="EditCustomer"
+                       asp-route-id="@customer.Id" onclick=@($"return confirm('Edit customer {customer.Login}?')")> <i class='far fa-edit'></i></a>
+                        </td>
+                        <td>
+                            <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="DeleteCustomer"
+                       asp-route-id="@customer.Id" onclick=@($"return confirm('Delete customer {customer.Login}?')")> <i class='far fa-trash-alt'></i></a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        }
+
+        @if (User.IsInRole("customer"))
+        {
+       
+        <a asp-controller="Home" asp-action="UpdatePassword"
+        asp-route-id="@userL.Id" style="font-size:24px"> Update password</a>
+
+        <br/>
+        <br/>
+            <table class="table table-striped">
+
+                <tbody>
+                    <tr>
+                        <td style="color:cadetblue"> <b>Id (Account)</b></td>
+                        <td style="color:cadetblue"><b>Name</b></td>
+                        <td style="color:cadetblue"><b>Login</b></td>
+                        <td style="color:cadetblue"><b>Payment balance</b></td>
+                        <td style="color:cadetblue"><b>Status</b></td>
+                        <td style="color:cadetblue"><b>IPTV</b></td>
+                        <td style="color:cadetblue"><b>IP address</b></td>
+                        <td style="color:cadetblue"><b>Real IP address</b></td>
+                    </tr>
+
+                </tbody>
+
+                <tbody>
+                    <tr>
+                        <td>@userL.Id</td>
+                        <td>@userL.Name</td>
+                        <td>@userL.Login</td>
+                        <td>@userL.PaymentBalance</td>
+                        <td>@userL.Status</td>
+                        <td>@tariff.IPTV</td>
+                        <td>@profile.IPaddress</td>
+                        <td>@profile.RealIPaddress</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    
+
+
+
+</div>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>

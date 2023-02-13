@@ -1,0 +1,72 @@
+﻿@model WebApplicationProject.Data.TariffPlan
+@{
+    ViewData["Title"] = "InputFormTariff";
+}
+
+<h1>Adding new tariff plan</h1>
+
+<form asp-controller="Home" asp-action="InputFormTariff">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="TariffId">
+                <label class="form-label" for="form6Example1">Tariff Id</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="TariffName" />
+                <label class="form-label" for="form6Example2">Tariff name</label>
+            </div>
+        </div>
+        
+    </div>
+    <!-- 3 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="Speed">
+                <label class="form-label" for="form6Example1">Max speed, Mb/s</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="TrafficLimit" />
+                <label class="form-label" for="form6Example2">Traffic limit, GB</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="IPTV" />
+                <label class="form-label" for="form6Example2">IPTV packet</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+
+</form>
+
+
+
+@*<form asp-controller="Home" asp-action="InputFormTariff">
+    <label>Tariff Id</label>
+    <input asp-for="TariffId">
+    <label>Tariff name</label>
+    <input asp-for="TariffName">
+    <br />
+    <label>Max Speed</label>
+    <input asp-for="Speed">
+    <br />
+    <label>Traffic limit</label>
+    <input asp-for="TrafficLimit">
+    <br/>
+    <label>IPTV service</label>
+    <input asp-for="IPTV">
+    <br />
+    <button type = "submit">Add tariff</button>
+
+    </form>*@
+

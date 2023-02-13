@@ -1,0 +1,108 @@
+﻿@model WebApplicationProject.Data.Customer
+@{
+    ViewData["Title"] = "InputForm";
+}
+
+<h1>Add customer(account)</h1>
+</br>
+
+<form asp-controller="Home" asp-action="InputForm">
+    <!-- 3 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="Id">
+                <label class="form-label" for="form6Example1">Id(account)</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Status" />
+                <label class="form-label" for="form6Example2">Status</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Role" />
+                <label class="form-label" for="form6Example2">Role</label>
+            </div>
+        </div>
+    </div>
+    <!-- 3 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="Login">
+                <label class="form-label" for="form6Example1">Login</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Password" />
+                <label class="form-label" for="form6Example2">Password</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="ServiceProfileId" />
+                <label class="form-label" for="form6Example2">Service profile</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="Name">
+                <label class="form-label" for="form6Example1">Name</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Address" />
+                <label class="form-label" for="form6Example2">Address</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Phone" />
+                <label class="form-label" for="form6Example2">Phone number</label>
+            </div>
+        </div>
+    </div>
+
+     <!-- 3 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" asp-for="PaymentBalance">
+                <label class="form-label" for="form6Example1">Payment balance</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="PaymentSum" />
+                <label class="form-label" for="form6Example2">PaymentSum</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" asp-for="Phone" />
+                <label class="form-label" for="form6Example2">Phone number</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message input -->
+    <div class="form-outline mb-4">
+        <textarea class="form-control" id="form6Example7" rows="4"></textarea>
+        <label class="form-label" for="form6Example7">Additional information</label>
+    </div>
+
+    
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4" onclick="return confirm('Be sure that you use unique pare of Customer Id' and Service Profile Id)" )>Create account</button>
+</form>
+

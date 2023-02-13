@@ -1,0 +1,38 @@
+﻿@model WebApplicationProject.Data.Customer
+@{
+    ViewData["Title"] = "EditCustomer";
+}
+
+<h1>Edit customer</h1>
+
+<form asp-controller="Home" asp-action="EditCustomer">
+    <label>Id (Account)</label>
+    <input asp-for="Id">
+    <br />
+    <label>Name</label>
+    <input asp-for="Name">
+    <br />
+    <label>Login</label>
+    <input asp-for="Login">
+    <br />
+    <label>Payment balance</label>
+    <input asp-for="PaymentBalance">
+    <br />
+    <label>Payment sum</label>
+    <input asp-for="PaymentSum">
+    <br />
+    <label>Password</label>
+    <input asp-for="Password">
+    <br />
+    <label>Status</label>
+    <input asp-for="Status">
+    <br />
+    <label>Role</label>
+    <input asp-for="Role">
+    <br />
+    <label>Service profile</label>
+    <input asp-for="ServiceProfileId">
+    <br />
+    <button type="submit">Submit</button>
+
+</form>

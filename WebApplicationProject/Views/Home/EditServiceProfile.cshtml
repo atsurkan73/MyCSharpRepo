@@ -1,0 +1,25 @@
+﻿@model WebApplicationProject.Data.ServiceProfile
+@{
+    ViewData["Title"] = "EditServiceProfile";
+}
+
+<h1>Edit service profile</h1>
+
+<form asp-controller="Home" asp-action="EditServiceProfile">
+    <label>Profile Id</label>
+    <input asp-for="ProfileId">
+    <label>User Id</label>
+    <input asp-for="UserId">
+    <br />
+    <label>Tariff plan</label>
+    <input asp-for="TariffPlan">
+    <br />
+    <label>IP address</label>
+    <input asp-for="IPaddress">
+    <br/>
+    <label>Real IP address</label>
+    <input asp-for="RealIPaddress">
+    <br />
+    <button type = "submit">Edit service profile</button>
+
+</form>

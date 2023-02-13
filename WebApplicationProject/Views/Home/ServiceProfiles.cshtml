@@ -1,0 +1,66 @@
+﻿@model List<WebApplicationProject.Data.ServiceProfile>
+@{
+    var profiles = Model;
+    ViewData["Title"] = "Service Profile Page";
+}
+
+<div class="text-center">
+    @if (User.Identity is { IsAuthenticated: true })
+    {
+        <h1 class="display-5" style="color:cadetblue">Welcome <b>@User.Identity?.Name</b></h1>
+    }
+        
+    <br />
+   
+    @if (User.IsInRole("admin"))
+    {
+        <a style='font-size:24px;' asp-controller="Home" asp-action="InputFormProfile">
+            Add profile
+        </a>
+    }
+
+    <br />
+    <br />
+    <h1>Available service profiles</h1>
+
+    <table class="table table-striped">
+
+        <tbody>
+            <tr>
+                <td style="color:cadetblue"><b>ProfileId</b></td>
+                <td style="color:cadetblue"><b>UserId</b></td>
+                <td style="color:cadetblue"><b>TariffPlan</b></td>
+                <td style="color:cadetblue"><b>IPaddress</b></td>
+                <td style="color:cadetblue"><b>Real IP address</b></td>
+                <td style="color:cadetblue"><b>Edit</b></td>
+                <td style="color:cadetblue"><b>Delete</b></td>
+            </tr>
+
+        </tbody>
+
+        <tbody>
+            @foreach (var profile in profiles)
+            {
+                <tr>
+                    <td>@profile.ProfileId</td>
+                    <td>@profile.UserId</td>
+                    <td>@profile.TariffPlan</td>
+                    <td>@profile.IPaddress</td>
+                    <td>@profile.RealIPaddress</td>
+
+                    <td>
+                        <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="EditServiceProfile"
+                       asp-route-id="@profile.ProfileId" onclick=@($"return confirm('Edit customer {profile.ProfileId}?')")> <i class='far fa-edit'></i></a>
+                    </td>
+                    <td>
+                        <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="DeleteServiceProfile"
+                       asp-route-id="@profile.ProfileId" onclick=@($"return confirm('Delete customer {profile.ProfileId}?')")> <i class='far fa-trash-alt'></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>

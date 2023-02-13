@@ -1,0 +1,112 @@
+﻿@model List<WebApplicationProject.Data.TariffPlan>
+@{
+    var tariffs = Model;
+    ViewData["Title"] = "Tariff Page";
+}
+
+<div class="text-center">
+    @if (User.Identity is { IsAuthenticated: true })
+    {
+        <h1 class="display-5" style="color:cadetblue">Welcome <b>@User.Identity?.Name</b></h1>
+    }
+    @if (User.Identity is { IsAuthenticated: false })
+    {
+        <h1 class="display-4" style="color:cadetblue">Welcome</h1>
+        <br/>
+        <div>
+            <a asp-controller="Home" asp-action="Login" style='font-size:24px'>Login to get customer data</a>
+        </div>
+    
+    }
+
+    @if (User.IsInRole("admin"))
+    {
+        <br/>
+            <a asp-controller="Home" asp-action="InputFormTariff" style='font-size:24px'>
+            Add tariff
+        </a>
+    }
+
+    <br />
+    <br />
+    <h1>Available tariff plans</h1>
+    <table class="table table-striped">
+
+        <tbody>
+            <tr>
+                @if (User.IsInRole("admin"))
+                {
+                    <td style="color:cadetblue"><b>TariffId</b></td>
+                }
+                <td style="color:cadetblue"><b>Tariff</b></td>
+                <td style="color:cadetblue"><b>Max Speed, Mbit/sec</b></td>
+                <td style="color:cadetblue"><b>Traffic limit, GByte</b></td>
+                <td style="color:cadetblue"><b>IPTV packet</b></td>
+
+                @if (User.IsInRole("admin"))
+                {
+                    <td style="color:cadetblue"><b>Edit tariff<b></td>
+                    <td style="color:cadetblue"><b>Delete tariff<b></td>
+                }
+            </tr>
+
+        </tbody>
+
+        <tbody>
+            @foreach (var tariff in tariffs)
+            {
+                <tr>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td>@tariff.TariffId</td>
+                    }
+                    <td>@tariff.TariffName</td>
+                    <td>@tariff.Speed</td>
+                    <td>@tariff.TrafficLimit</td>
+                    <td>@tariff.IPTV</td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td>
+                            <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="EditTariff"
+                        asp-route-id="@tariff.TariffId" onclick=@($"return confirm('Edit tariff {tariff.TariffName}?')")> <i class='far fa-edit'></i></a>
+                        </td>
+                        <td>
+                            <a style='font-size:24px; color:burlywood' asp-controller="Home" asp-action="DeleteTariffPlan"
+                        asp-route-id="@tariff.TariffId" onclick=@($"return confirm('Delete tariff {tariff.TariffName}?')")><i class='far fa-trash-alt'></i></a>
+                        </td>
+                    }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+</br>
+
+@if (!User.IsInRole("admin"))
+{
+    <div class="text-center">
+        <h1>Supplementary services</h1>
+
+        <table class="table table-striped">
+
+            <tbody>
+                <tr>
+
+                    <td style="color:cadetblue" align="left"><b>Service</b></td>
+                </tr>
+                <tr>
+                    <td align="left">Real IP address</td>
+                </tr>
+                <tr>
+                    <td align="left">Mail Box</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+    <br/>
+}
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
